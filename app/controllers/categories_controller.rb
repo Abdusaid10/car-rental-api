@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: [:create, :edit, :update, :destroy]
+  before_action :set_category, only: [:show, :update, :destroy]
   
   def index
     @categories = Category.all
@@ -10,13 +10,6 @@ class CategoriesController < ApplicationController
     json_response(@categories)
   end
 
-  def new 
-    @category = Category.new
-  end
-  
-  def edit
-    json_response(@category)
-  end
   def show 
     # respond_to do |f|
     #   f.html
@@ -30,33 +23,19 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
 
     if @category.save
-      # flash[:info] = "Category #{@category.type} added"
-      # respond_to do |f|
-      #   f.html { 
-      #     flash[:info] = "Category #{@category.category} added"
-      #     redirect_to @category
-      #   }
-      #   # f.json { render json: @category, status: :created }
-      #   f.json { json_response(@category, :created) }
-      # end
       response = { message: Message.categroy_created }
       json_response(response, :created)
     else
-      # respond_to do |f|
-      #   f.html { render 'new' }
-      #   # f.json { render json: @category.errors, status: :unprocessable_entity }
-      #   f.json { json_response(@category, :unprocessable_entity) }
-      # end
       response = { message: Message.something_went_wrong }
       json_response(response, :unprocessable_entity)
     end
   end
 
   def update
-    if @category.update_attributes(category_params)
+    if @category.update(category_params)
       # respond_to do |f|
       #   f.html { 
-      #     flash[:success] = "Categorie #{@category.category} updated"
+      #     flash[:success] = "Category #{@category.category} updated"
       #     redirect_to @category
       #   }
       #   # f.json  { render json: @category }
@@ -76,7 +55,7 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    @Categorie.destroy 
+    @category.destroy 
     # respond_to do |f|
     #   f.html { flash[:info] = "Category #{@category.category} removed" }
     #   f.json { render json: "Categorie #{@category.category} removed" }
@@ -91,7 +70,7 @@ class CategoriesController < ApplicationController
     end
 
     def category_params
-      params.require(:category).permit(:category)
+      params.require(:category).permit(:cat)
     end
 
     # def admin_user
