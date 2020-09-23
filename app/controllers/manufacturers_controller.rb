@@ -73,6 +73,6 @@ class ManufacturersController < ApplicationController
     def manufacturer_params
       # json = params.require(maker:)
       # { manufacturer: JSON.parse(json).permit(:manufacturer, :about, :logo, :images) }
-      params.permit(:manufacturer, :about, :logo)
+      params.permit(:manufacturer, :about, :image, :logo)
     end
 end
