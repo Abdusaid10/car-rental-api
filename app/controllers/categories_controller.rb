@@ -19,11 +19,15 @@ class CategoriesController < ApplicationController
     json_response(@category)
   end
 
+  def new 
+    @category = Category.new
+  end
+
   def create
     @category = Category.new(category_params)
 
     if @category.save
-      response = { message: Message.categroy_created }
+      response = { message: Message.category_created }
       json_response(response, :created)
     else
       response = { message: Message.something_went_wrong }
@@ -70,7 +74,11 @@ class CategoriesController < ApplicationController
     end
 
     def category_params
-      params.require(:category).permit(:cat)
+      # if params[:category].is_a? String
+      #   params[:category]
+      # else
+      params.permit(:category)
+      # end
     end
 
     # def admin_user

@@ -2,17 +2,17 @@ class ManufacturersController < ApplicationController
   before_action :set_manufacturer, only: [:show, :edit, :update, :destroy]
   
   def index
-    @manufacturers = Manufacturer.all
+    @makers = Manufacturer.all
     # respond_to do |f|
     #   f.html
     #   # f.json { render :json => @manufacturers }
     #   f.json { json_response(@manufacturer) }
     # end
-    json_response(@manufacturers)
+    json_response(@makers)
   end
 
   def new
-    @manufacturer = Manufacturer.new
+    @maker = Manufacturer.new
   end
 
   def edit
@@ -21,7 +21,7 @@ class ManufacturersController < ApplicationController
     #   # f.json { render json: @manufacturer }
     #   f.json { json_response(@manufacturer) }
     # end
-    json_response(@manufacturer)
+    json_response(@maker)
   end
 
   def show 
@@ -30,13 +30,13 @@ class ManufacturersController < ApplicationController
     #   # f.json { render json: @manufacturer }
     #   f.json { json_response(@manufacturer) }
     # end
-    json_response(@manufacturer)
+    json_response(@maker)
   end
 
   def create
-    @manufacturer = Manufacturer.new(manufacturer_params)
+    @maker = Manufacturer.new(manufacturer_params)
    
-    if @manufacturer.save
+    if @maker.save
      
       response = { message: Message.manufacturer_created }
       json_response(response, :created)
@@ -47,7 +47,7 @@ class ManufacturersController < ApplicationController
   end
 
   def update
-    if @manufacturer.update_attributes(manufacturer_params)
+    if @maker.update_attributes(manufacturer_params)
      
       response = { message: Message.manufacturer_updated }
       json_response(response)
@@ -59,7 +59,7 @@ class ManufacturersController < ApplicationController
   end
 
   def destroy
-    @manufacturer.destroy
+    @maker.destroy
     
     response = { message: Message.manufacturer_destroyed }
     json_response(response)
@@ -67,10 +67,12 @@ class ManufacturersController < ApplicationController
 
   private
     def set_manufacturer
-      @manufacturer = Manufacturer.find(params[:id])
+      @maker = Manufacturer.find(params[:id])
     end
 
     def manufacturer_params
-      params.require(:manufacturer).permit(:manufacturer, :about, :logo, :images)
+      # json = params.require(maker:)
+      # { manufacturer: JSON.parse(json).permit(:manufacturer, :about, :logo, :images) }
+      params.permit(:manufacturer, :about, :logo)
     end
 end
