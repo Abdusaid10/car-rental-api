@@ -36,6 +36,7 @@ class CarsController < ApplicationController
   end
 
   def update
+    if params[:]
     
     if @car.update_attributes(car_params)
       response = { message: Message.car_updated }
@@ -59,7 +60,7 @@ class CarsController < ApplicationController
     end
 
     def car_params
-      params.require(:car).permit(:manufacturer_id, :category_id, :model, :color, :status, :price, :description, :year, :images)
+      params.require(:car).permit(:manufacturer_id, :category_id, :model, :color, :status, :price, :description, :year, :image)
     end
 
     def admin_user      

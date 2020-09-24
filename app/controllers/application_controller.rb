@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::API
   # protect_from_forgery with: :null_session # with: :exception
   include Response
-  
+  # protect_from_forgery with: :exception  
+  # skip_before_action :verify_authenticity_token
   # skip_before_action :verify_authenticity_token
 
   # helper_method :login!, :logged_in?, :current_user, :authorized_user?, :logout!
