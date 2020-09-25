@@ -46,7 +46,7 @@ Rails.application.configure do
   config.action_controller.forgery_protection_origin_check = false
   config.consider_all_requests_local = false
 
-
+  Rails.application.routes.default_url_options = { host: "http://localhost:3000" }
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
 

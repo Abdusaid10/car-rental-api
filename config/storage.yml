@@ -32,4 +32,4 @@ local:
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
-config.active_storage.service = :local
+  config.active_storage.service = :local

@@ -8,7 +8,25 @@ class ManufacturersController < ApplicationController
     #   # f.json { render :json => @manufacturers }
     #   f.json { json_response(@manufacturer) }
     # end
-    render json: @makers, each_serializer: ManufacturerSerializer
+    # @makers.each do |i|
+    #   if i.present?
+    #     image_url = { :image => (url_for i.image) }
+    #     i.attributes.merge(image_url)
+    #   end
+    # end
+    # response = {
+    #   manufacturers: []
+    # }
+
+    # @makers.each do |m|
+    #   if m.present?
+    #     serializer = ManufacturerSerializer.new(manufacturer: m)
+    #     (response[:manufacturers] ||=[]) << (serializer.serialize_new_manufacturer())
+    #   end
+    # end
+  
+    # render json: response, status: 200
+    json_response(@makers)
   end
 
   def new
@@ -35,14 +53,14 @@ class ManufacturersController < ApplicationController
 
   def create
     @maker = Manufacturer.new(manufacturer_params)
-    if params[:file]
-      @maker.image.attach(params[:file])
-      @maker.logo.attach(params[:file])
-      image = url_for(@maker.image)
-      logo = url_for(@maker.logo)
-    end
+    # if params[:file]
+    #   @maker.image.attach(params[:file])
+    #   @maker.logo.attach(params[:file])
+    #   image = url_for(@maker.image)
+    #   logo = url_for(@maker.logo)
+    # end
     # if @maker.save
-     
+    respond_to_create()
     #   response = { message: Message.manufacturer_created }
     #   json_response(response, :created)
     # else
@@ -81,12 +99,13 @@ class ManufacturersController < ApplicationController
       params.permit(:manufacturer, :about, :image, :logo)
     end
 
-    def respond_to_post
-      if @manufacturer.valid?()
-        manufacturer_serializer = ManufacturerSreializer.new(manufacturer: @manufacturer)
-        render json: manufacturer_serializer.serialize_new_manufacturer()
+    def respond_to_create
+      if @maker.valid?
+        manufacturer_serializer = ManufacturerSerializer.new(manufacturers: @maker)
+        response = manufacturer_serializer.serialize_new_manufacturer()
+        render json: response, status: 200
       else
-        render json: { errors: manufacturer.errors }, status: 400
+        render json: { errors: @maker.errors }, status: 400
       end
     end
 end

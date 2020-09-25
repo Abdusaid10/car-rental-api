@@ -35,9 +35,7 @@ class CarsController < ApplicationController
     end
   end
 
-  def update
-    if params[:]
-    
+  def update    
     if @car.update_attributes(car_params)
       response = { message: Message.car_updated }
       json_response(response)
