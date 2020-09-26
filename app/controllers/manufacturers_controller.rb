@@ -8,25 +8,21 @@ class ManufacturersController < ApplicationController
     #   # f.json { render :json => @manufacturers }
     #   f.json { json_response(@manufacturer) }
     # end
-    # @makers.each do |i|
-    #   if i.present?
-    #     image_url = { :image => (url_for i.image) }
-    #     i.attributes.merge(image_url)
-    #   end
-    # end
-    # response = {
-    #   manufacturers: []
-    # }
+   
+    response = {
+      manufacturers: []
+    }
 
-    # @makers.each do |m|
-    #   if m.present?
-    #     serializer = ManufacturerSerializer.new(manufacturer: m)
-    #     (response[:manufacturers] ||=[]) << (serializer.serialize_new_manufacturer())
-    #   end
-    # end
-  
-    # render json: response, status: 200
-    json_response(@makers)
+    @makers.each do |m|
+      if m.present?
+        serializer = ManufacturerSerializer.new(m)
+        (response[:manufacturers] ||=[]) << (serializer.serialize())
+        # response << serializer.serialize_as_json()
+      end
+    end
+    # serializer = ManufacturerSerializer.new(manufacturer: @makers)
+    # response = serializer.serialize_as_json()
+    json_response(response)
   end
 
   def new
@@ -100,9 +96,9 @@ class ManufacturersController < ApplicationController
     end
 
     def respond_to_create
-      if @maker.valid?
-        manufacturer_serializer = ManufacturerSerializer.new(manufacturers: @maker)
-        response = manufacturer_serializer.serialize_new_manufacturer()
+      if @maker.save
+        manufacturer_serializer = ManufacturerSerializer.new(@maker)
+        response = manufacturer_serializer.serialize()
         render json: response, status: 200
       else
         render json: { errors: @maker.errors }, status: 400
