@@ -4,8 +4,19 @@ class CarsController < ApplicationController
 
   def index
     @cars = Car.all
-  
-    json_response(@cars)
+    
+    response = {
+      cars: []
+    }
+    @cars.each do |car|
+      manufacturer = Manufacturer.find_by(id: car.manufacturer_id)
+      category = Category.find_by(id: car.category_id)
+      if car.present?
+        serializer = CarSerializer.new(car)
+        (response[:cars] ||=[]) << (serializer.serialize_car_with_maker())
+      end
+    end
+    json_response(response)
   end
 
   def new
@@ -58,7 +69,7 @@ class CarsController < ApplicationController
     end
 
     def car_params
-      params.require(:car).permit(:manufacturer_id, :category_id, :model, :color, :status, :price, :description, :year, :image)
+      params.permit(:manufacturer_id, :category_id, :model, :color, :status, :price, :description, :year, :image)
     end
 
     def admin_user      
