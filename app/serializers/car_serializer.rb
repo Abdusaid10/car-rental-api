@@ -1,25 +1,28 @@
 class CarSerializer
-  # attributes :id, :model, :status, :price, :image, :description, :color
 
-  # belongs_to :category
-  # belongs_to :manufacturer
-
-  def initialize(cars)
+  def initialize(cars, manufacturer, category)
     @cars = cars
+    @serializeManufacturers = ManufacturerSerializer.new(manufacturer)
+    @serializedMaker = @serializeManufacturers.serialize_makers_for_cars()
+    @category = category
   end
 
-  # def serialize_car_with_maker
-  #   serialize()
-  # end
+  def serialize_car_cat_maker
+    serialize().merge!({
+      manufacturer: @serializedMaker,
+      category: @category
+    })
+  end
 
   def serialize
-    # cars_key = get_cars_key()
-    # {cars_key => serialize_each_car()}
     serialize_each_car()
   end
 
   def serialize_car_for_show
-    serialize_show()
+    serialize_show().merge!({
+      manufacturer: @serializedMaker,
+      category: @category
+    })
   end
 
   private
