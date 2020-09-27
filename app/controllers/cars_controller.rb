@@ -13,7 +13,7 @@ class CarsController < ApplicationController
       category = Category.find_by(id: car.category_id)
       if car.present?
         serializer = CarSerializer.new(car)
-        (response[:cars] ||=[]) << (serializer.serialize_car_with_maker())
+        (response[:cars] ||=[]) << (serializer.serialize())
       end
     end
     json_response(response)
@@ -28,10 +28,18 @@ class CarsController < ApplicationController
   end
 
   def show 
-    @carManufacturer = Manufacturer.find_by(id:  @car.manufacturer_id)
+    @carMaker = Manufacturer.find_by(id:  @car.manufacturer_id)
     @carCategory = Category.find_by(id: @car.category_id)
-   
-    json_response(@car)
+
+    serializeMaker = ManufacturerSerializer.new(@carMaker)
+    serializedMaker= serializeMaker.serialize_makers_for_cars()
+
+    serializeCar = CarSerializer.new(@car)
+    serializedCar = serializeCar.serialize_car_for_show()
+    serializedCar.merge!({ category: @carCategory })
+    serializedCar.merge!({ manufacturer: serializedMaker })
+    
+    json_response(serializedCar)
   end
 
   def create

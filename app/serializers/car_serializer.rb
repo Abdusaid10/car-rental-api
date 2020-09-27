@@ -3,19 +3,23 @@ class CarSerializer
 
   # belongs_to :category
   # belongs_to :manufacturer
+
   def initialize(cars)
     @cars = cars
-    
   end
 
-  def serialize_car_with_maker
-    serialize()
-  end
+  # def serialize_car_with_maker
+  #   serialize()
+  # end
 
   def serialize
     # cars_key = get_cars_key()
     # {cars_key => serialize_each_car()}
     serialize_each_car()
+  end
+
+  def serialize_car_for_show
+    serialize_show()
   end
 
   private
@@ -25,9 +29,17 @@ class CarSerializer
 
     def serialize_each_car
       if is_feed?()
-        @cars.map() { |car| serialize_cars_index(car) }
+        @cars.map() { |car| serialize_cars(car) }
       else
-        serialize_cars_show(@cars)
+        serialize_cars(@cars)
+      end
+    end
+
+    def serialize_show
+      if is_feed?()
+        @cars.map() { |car| serialize_for_show(car) }
+      else
+        serialize_for_show(@cars)
       end
     end
 
@@ -35,22 +47,26 @@ class CarSerializer
       @cars.is_a?(ActiveRecord::AssociationRelation)
     end
 
-    def serialize_cars_show(car)
+    def serialize_for_show(car)
       {
         id: car.id,
+        manufacturer_id: car.manufacturer_id,
+        category_id: car.category_id,
         model: car.model,
-        color: car.color,
         status: car.status,
         price: car.price,
-        description: car.description,
+        color: car.color,
         year: car.year,
+        description: car.description,
         image_url: car.get_image_url(),
       }
     end
 
-    def serialize_cars_index(car)
+    def serialize_cars(car)
       {
         id: car.id,
+        manufacturer_id: car.manufacturer_id,
+        category_id: car.category_id,
         model: car.model,
         status: car.status,
         price: car.price,

@@ -3,12 +3,7 @@ class ManufacturersController < ApplicationController
   
   def index
     @makers = Manufacturer.all
-    # respond_to do |f|
-    #   f.html
-    #   # f.json { render :json => @manufacturers }
-    #   f.json { json_response(@manufacturer) }
-    # end
-   
+    
     response = {
       manufacturers: []
     }
@@ -17,11 +12,9 @@ class ManufacturersController < ApplicationController
       if m.present?
         serializer = ManufacturerSerializer.new(m)
         (response[:manufacturers] ||=[]) << (serializer.serialize())
-        # response << serializer.serialize_as_json()
       end
     end
-    # serializer = ManufacturerSerializer.new(manufacturer: @makers)
-    # response = serializer.serialize_as_json()
+   
     json_response(response)
   end
 
@@ -30,39 +23,17 @@ class ManufacturersController < ApplicationController
   end
 
   def edit
-    # respond_to do |f|
-    #   f.html
-    #   # f.json { render json: @manufacturer }
-    #   f.json { json_response(@manufacturer) }
-    # end
     json_response(@maker)
   end
 
-  def show 
-    # respond_to do |f|
-    #   f.html
-    #   # f.json { render json: @manufacturer }
-    #   f.json { json_response(@manufacturer) }
-    # end
-    json_response(@maker)
+  def show
+    serializer = ManufacturerSerializer.new(@maker)
+    json_response(serializer.serialize())
   end
 
   def create
     @maker = Manufacturer.new(manufacturer_params)
-    # if params[:file]
-    #   @maker.image.attach(params[:file])
-    #   @maker.logo.attach(params[:file])
-    #   image = url_for(@maker.image)
-    #   logo = url_for(@maker.logo)
-    # end
-    # if @maker.save
     respond_to_create()
-    #   response = { message: Message.manufacturer_created }
-    #   json_response(response, :created)
-    # else
-    #   response = { message: Message.something_went_wrong }
-    #   json_response(response, :unprocessable_entity)
-    # end
   end
 
   def update
@@ -90,8 +61,6 @@ class ManufacturersController < ApplicationController
     end
 
     def manufacturer_params
-      # json = params.require(maker:)
-      # { manufacturer: JSON.parse(json).permit(:manufacturer, :about, :logo, :images) }
       params.permit(:manufacturer, :about, :image, :logo)
     end
 
@@ -99,9 +68,10 @@ class ManufacturersController < ApplicationController
       if @maker.save
         manufacturer_serializer = ManufacturerSerializer.new(@maker)
         response = manufacturer_serializer.serialize()
-        render json: response, status: 200
+        json_response(response, :created)
       else
-        render json: { errors: @maker.errors }, status: 400
+        response = { message: Message.something_went_wrong }
+        json_response(response, :unprocessable_entity)
       end
     end
 end
