@@ -1,8 +1,8 @@
-class BookingsController << ApplicationController
+class BookingsController < ApplicationController
   
   def index
     # @bookings = current_user.bookings
-    @bookings = Booking.all.where(user_id: current_user.id)
+    @bookings = Booking.all
     json_response(@bookings)
   end
 
@@ -11,7 +11,7 @@ class BookingsController << ApplicationController
   end
 
   def create
-    @booking = current_user.bookings.new(booking_params)
+    @booking = Booking.new(booking_params)
 
     if @booking.save!
       response = { message: Message.booking_created }
@@ -25,6 +25,6 @@ class BookingsController << ApplicationController
   private
 
   def booking_params
-    params.permit(:start_date, :end_date)
+    params.require(:booking).permit(:user_id, :car_id, :start_date, :end_date)
   end
 end

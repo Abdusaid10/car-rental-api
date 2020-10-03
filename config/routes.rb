@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/user', to: 'users#show'
   get '/users', to: 'users#index'
   # resources :users, only: [:create, :show, :index]
+  resources :bookings
   resources :manufacturers
   resources :cars
   resources :categories
