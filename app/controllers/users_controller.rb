@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
-  
-  def index 
-    @users = User.all 
+  def index
+    @users = User.all
     if @users
       render json: {
-        users: @users 
+        users: @users
       }
     else
       render json: {
@@ -14,7 +13,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def show 
+  def show
     @user = User.find(params[:id])
     if @user
       render json: {
@@ -27,9 +26,8 @@ class UsersController < ApplicationController
       }
     end
   end
-  
-  def new
-  end
+
+  def new; end
 
   def create
     @user = User.new(user_params)
@@ -48,7 +46,7 @@ class UsersController < ApplicationController
     end
   end
 
-  private 
+  private
 
   def user_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation)

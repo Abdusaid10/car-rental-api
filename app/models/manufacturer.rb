@@ -1,6 +1,6 @@
 class Manufacturer < ApplicationRecord
   include Rails.application.routes.url_helpers
-  
+
   has_many :cars
   has_many :categories
   has_one_attached :image
@@ -8,12 +8,11 @@ class Manufacturer < ApplicationRecord
 
   validates :manufacturer, presence: true
 
-  def get_image_url
-    url_for(self.image)
+  def image_url
+    url_for(image)
   end
 
-  def get_logo_url
-    url_for(self.logo)
+  def logo_url
+    url_for(logo)
   end
-
 end

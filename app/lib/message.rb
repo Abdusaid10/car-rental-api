@@ -74,5 +74,4 @@ class Message
   def self.something_went_wrong
     'Something went wrong while creating'
   end
-  
 end

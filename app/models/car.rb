@@ -7,8 +7,7 @@ class Car < ApplicationRecord
   has_many :bookings
   has_many :users, through: :booking
 
-  def get_image_url
-    url_for(self.image)
+  def image_url
+    url_for(image)
   end
-  
 end
