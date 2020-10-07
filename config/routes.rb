@@ -5,10 +5,8 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   get '/logged_in', to: 'sessions#i_logged_in?'
 
-  post '/signup', to: 'users#create'
-  get '/user', to: 'users#show'
-  get '/users', to: 'users#index'
-  # resources :users, only: [:create, :show, :index]
+ 
+  resources :users
   resources :bookings
   resources :manufacturers
   resources :cars

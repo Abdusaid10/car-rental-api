@@ -19,7 +19,6 @@ class ManufacturersController < ApplicationController
   end
 
   def new
-    @maker = Manufacturer.new
   end
 
   def edit
@@ -33,7 +32,14 @@ class ManufacturersController < ApplicationController
 
   def create
     @maker = Manufacturer.new(manufacturer_params)
-    respond_to_create
+    if @maker.save
+      manufacturer_serializer = ManufacturerSerializer.new(@maker)
+      response = manufacturer_serializer.serialize
+      json_response(response, :created)
+    else
+      response = { message: Message.something_went_wrong }
+      json_response(response, :unprocessable_entity)
+    end
   end
 
   def update
@@ -66,13 +72,6 @@ class ManufacturersController < ApplicationController
   end
 
   def respond_to_create
-    if @maker.save
-      manufacturer_serializer = ManufacturerSerializer.new(@maker)
-      response = manufacturer_serializer.serialize
-      json_response(response, :created)
-    else
-      response = { message: Message.something_went_wrong }
-      json_response(response, :unprocessable_entity)
-    end
+    
   end
 end

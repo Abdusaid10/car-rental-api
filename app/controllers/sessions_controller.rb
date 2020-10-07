@@ -19,13 +19,11 @@ class SessionsController < ApplicationController
 
   def i_logged_in?
     if logged_in? && current_user
-      puts "session current user #{current_user}"
       render json: {
         logged_in: true,
         user: current_user
       }
     else
-      puts 'session not logged in'
       render json: {
         logged_in: false,
         message: 'not logged in'

@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       }
     else
       render json: {
-        status: 500,
+        status: 404,
         errors: ['no users found']
       }
     end
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       }
     else
       render json: {
-        status: 500,
+        status: 404,
         errors: ['user not found']
       }
     end
@@ -31,7 +31,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    puts "before #{@user}"
     if @user.save
       login!
       render json: {
@@ -40,7 +39,7 @@ class UsersController < ApplicationController
       }
     else
       render json: {
-        status: 500,
+        status: 422,
         errors: [@user.errors.full_messages, 'user create error']
       }
     end
