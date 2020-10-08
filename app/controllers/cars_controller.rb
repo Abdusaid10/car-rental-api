@@ -4,6 +4,8 @@ class CarsController < ApplicationController
 
   def index
     @cars = Car.all
+    @manufacturer = Manufacturer.find_by(id: car.manufacturer_id)
+    category = Category.find_by(id: car.category_id)
     @categories =
       response = {
         cars: []
@@ -16,30 +18,31 @@ class CarsController < ApplicationController
         (response[:cars] ||= []) << serializer.serialize_car_cat_maker
       end
     end
-    json_response(response)
+    # json_response(@cars)
   end
 
   def new
-    @car = Car.new
+    # @car = Car.new
   end
 
   def edit
-    json_response(@car)
+    # json_response(@car)
   end
 
   def show
+    @car = Car.find(params[:id])
     @car_maker = Manufacturer.find_by(id: @car.manufacturer_id)
     @car_category = Category.find_by(id: @car.category_id)
 
     # serializeMaker = ManufacturerSerializer.new(@carMaker)
     # serializedMaker= serializeMaker.serialize_makers_for_cars()
 
-    serialize_car = CarSerializer.new(@car, @car_maker, @car_category)
-    serialized_car = serialize_car.serialize_car_for_show
+    # serialize_car = CarSerializer.new(@car, @car_maker, @car_category)
+    # serialized_car = serialize_car.serialize_car_for_show
     # serialized_car.merge!({ category: @car_category })
     # serialized_car.merge!({ manufacturer: serializedMaker })
 
-    json_response(serialized_car)
+    # json_response(serialized_car)
   end
 
   def create

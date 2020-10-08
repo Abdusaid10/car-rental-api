@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :users
   resources :bookings
   resources :manufacturers, constrains: -> request { request.format == :json }
-  resources :cars
+  resources :cars, constrains: -> request { request.format == :json }
   resources :categories
 
 end

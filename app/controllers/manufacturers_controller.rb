@@ -71,8 +71,4 @@ class ManufacturersController < ApplicationController
   def manufacturer_params
     params.permit(:manufacturer, :about, :image, :logo)
   end
-
-  def respond_to_create
-    
-  end
 end
