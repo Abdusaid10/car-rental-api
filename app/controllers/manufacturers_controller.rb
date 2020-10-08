@@ -2,40 +2,41 @@ class ManufacturersController < ApplicationController
   before_action :set_manufacturer, only: %i[show edit update destroy]
 
   def index
-    @makers = Manufacturer.all
+    @manufacturers = Manufacturer.all
 
-    response = {
-      manufacturers: []
-    }
+    # response = {
+    #   manufacturers: []
+    # }
 
-    @makers.each do |m|
-      if m.present?
-        serializer = ManufacturerSerializer.new(m)
-        (response[:manufacturers] ||= []) << serializer.serialize
-      end
-    end
+    # @makers.each do |m|
+    #   if m.present?
+    #     serializer = ManufacturerSerializer.new(m)
+    #     (response[:manufacturers] ||= []) << serializer.serialize
+    #   end
+    # end
 
-    json_response(response)
+    # json_response(@makers)
   end
 
   def new
   end
 
   def edit
-    json_response(@maker)
   end
 
   def show
-    serializer = ManufacturerSerializer.new(@maker)
-    json_response(serializer.serialize)
+    # serializer = ManufacturerSerializer.new(@maker)
+    # json_response(@manufacturer)
+    @manufacturer = Manufacturer.find(params[:id])
+    # json_response(@manufacturer)
   end
 
   def create
-    @maker = Manufacturer.new(manufacturer_params)
-    if @maker.save
-      manufacturer_serializer = ManufacturerSerializer.new(@maker)
-      response = manufacturer_serializer.serialize
-      json_response(response, :created)
+    @manufacturer = Manufacturer.new(manufacturer_params)
+    if @manufacturer.save
+      # manufacturer_serializer = ManufacturerSerializer.new(@maker)
+      # response = manufacturer_serializer.serialize
+      json_response(@manufacturer, :created)
     else
       response = { message: Message.something_went_wrong }
       json_response(response, :unprocessable_entity)
@@ -43,7 +44,7 @@ class ManufacturersController < ApplicationController
   end
 
   def update
-    if @maker.update_attributes(manufacturer_params)
+    if @manufacturer.update_attributes(manufacturer_params)
 
       response = { message: Message.manufacturer_updated }
       json_response(response)
@@ -55,7 +56,7 @@ class ManufacturersController < ApplicationController
   end
 
   def destroy
-    @maker.destroy
+    @manufacturer.destroy
 
     response = { message: Message.manufacturer_destroyed }
     json_response(response)
@@ -64,7 +65,7 @@ class ManufacturersController < ApplicationController
   private
 
   def set_manufacturer
-    @maker = Manufacturer.find(params[:id])
+    @manufacturer = Manufacturer.find(params[:id])
   end
 
   def manufacturer_params
