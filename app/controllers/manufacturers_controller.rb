@@ -3,19 +3,10 @@ class ManufacturersController < ApplicationController
 
   def index
     @manufacturers = Manufacturer.all
-
-    # response = {
-    #   manufacturers: []
-    # }
-
-    # @makers.each do |m|
-    #   if m.present?
-    #     serializer = ManufacturerSerializer.new(m)
-    #     (response[:manufacturers] ||= []) << serializer.serialize
-    #   end
-    # end
-
-    # json_response(@makers)
+    response = {
+      manufacturers: @manufacturers
+    }
+    render json: response, each_serializer: ManufacturerSerializer
   end
 
   def new
@@ -25,17 +16,15 @@ class ManufacturersController < ApplicationController
   end
 
   def show
-    # serializer = ManufacturerSerializer.new(@maker)
-    # json_response(@manufacturer)
-    @manufacturer = Manufacturer.find(params[:id])
-    # json_response(@manufacturer)
+    response = {
+      manufacturers: @manufacturer
+    }
+    render json: response, serializer: ManufacturerDetailsSerializer
   end
 
   def create
     @manufacturer = Manufacturer.new(manufacturer_params)
     if @manufacturer.save
-      # manufacturer_serializer = ManufacturerSerializer.new(@maker)
-      # response = manufacturer_serializer.serialize
       json_response(@manufacturer, :created)
     else
       response = { message: Message.something_went_wrong }
