@@ -2,9 +2,7 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     if @users
-      render json: {
-        users: @users
-      }
+      render json: @users, each_serializer: UserSerializer
     else
       render json: {
         status: 404,
@@ -16,9 +14,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     if @user
-      render json: {
-        user: @user
-      }
+      render json: @user, serializer: UserDetailsSerializer
     else
       render json: {
         status: 404,
