@@ -1,4 +1,5 @@
 class BookingsController < ApplicationController
+  # skip_before_action :authorize_request, only: %i[index create show]
   def index
     # @bookings = current_user.bookings
     @bookings = Booking.all

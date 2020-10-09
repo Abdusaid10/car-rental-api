@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   resources :manufacturers, constrains: -> request { request.format == :json }
   resources :cars, constrains: -> request { request.format == :json }
   resources :categories
-
+  post 'auth/login', to: 'authentication#authenticate'
 end
