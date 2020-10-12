@@ -17,8 +17,8 @@ class AuthorizeApiRequest
 
   def user
     @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
-    # @user || errors.add(:token, 'Invalid token') && nil
-     # handle user not found
+  # @user || errors.add(:token, 'Invalid token') && nil
+  # handle user not found
   rescue ActiveRecord::RecordNotFound => e
     # raise custom error
     raise(
@@ -32,13 +32,10 @@ class AuthorizeApiRequest
   end
 
   def http_auth_header
-    if headers['Authorization'].present?
-      return headers['Authorization'].split(' ').last
-    end
+    return headers['Authorization'].split(' ').last if headers['Authorization'].present?
+
     # errors.add(:token, 'Missing token')
 
     raise(ExceptionHandler::MissingToken, Message.missing_token)
-    
   end
-  
 end

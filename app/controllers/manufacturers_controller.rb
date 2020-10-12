@@ -7,11 +7,9 @@ class ManufacturersController < ApplicationController
     render json: @manufacturers, each_serializer: ManufacturerSerializer
   end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   def show
     render json: @manufacturer, serializer: ManufacturerDetailsSerializer

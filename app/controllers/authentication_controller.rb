@@ -6,7 +6,8 @@ class AuthenticationController < ApplicationController
     json_response(auth_token: @auth_token)
   end
 
-  private 
+  private
+
   def auth_params
     params.require(:authentication).permit(:email, :password)
   end

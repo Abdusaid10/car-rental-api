@@ -7,19 +7,19 @@ class AuthenticateUser
   end
 
   def call
-    JsonWebToken.encode({user_id: user.id, admin: user.admin}) if user
+    JsonWebToken.encode({ user_id: user.id, admin: user.admin }) if user
   end
 
-  private 
+  private
 
-    attr_reader :email, :password
+  attr_reader :email, :password
 
-    def user
-      user = User.find_by(email: email)
-      return user if user && user.authenticate(password)
+  def user
+    user = User.find_by(email: email)
+    return user if user&.authenticate(password)
 
-      raise(ExceptionHandler::AuthenticationError, Message.invalid_credentials)
-      # errors.add :user_authentication, 'invalid credentials'
-      # nil
-    end
+    raise(ExceptionHandler::AuthenticationError, Message.invalid_credentials)
+    # errors.add :user_authentication, 'invalid credentials'
+    # nil
+  end
 end

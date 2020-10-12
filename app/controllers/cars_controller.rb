@@ -5,15 +5,13 @@ class CarsController < ApplicationController
 
   def index
     @cars = Car.all
-    
+
     render json: @cars, each_serializer: CarSerializer
   end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   def show
     render json: @car, serializer: CarDetailsSerializer
