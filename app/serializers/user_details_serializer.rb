@@ -7,7 +7,7 @@ class UserDetailsSerializer < ActiveModel::Serializer
         id: b.id,
         start_date: b.start_date,
         end_date: b.end_date,
-        car: { id: b.car.id, model: b.car.model }
+        car: { id: b.car.id, model: b.car.model, image_url: b.car.image_url }
       }
     end
   end
