@@ -4,8 +4,8 @@ Rails.application.routes.draw do
 
   resources :users
   resources :bookings
-  resources :manufacturers, constrains: -> request { request.format == :json }
-  resources :cars, constrains: -> request { request.format == :json }
+  resources :manufacturers
+  resources :cars
   resources :categories
   post 'login', to: 'authentication#authenticate'
 end

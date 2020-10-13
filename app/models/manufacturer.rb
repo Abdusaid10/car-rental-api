@@ -1,7 +1,7 @@
 class Manufacturer < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  has_many :cars
+  has_many :cars, dependent: :destroy
   has_many :categories
   has_one_attached :image
   has_one_attached :logo
