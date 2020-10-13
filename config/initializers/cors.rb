@@ -7,9 +7,9 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://5f85a021d2f6690cac1f2108--car-rental-client.netlify.app'
+    origins 'https://5f85a8a6cdda75120a152dac--car-rental-client.netlify.app'
     # http://localhost:3001
-    # https://5f85a021d2f6690cac1f2108--car-rental-client.netlify.app
+    # https://5f85a8a6cdda75120a152dac--car-rental-client.netlify.app
     resource '*',
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head]
