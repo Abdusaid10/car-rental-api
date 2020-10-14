@@ -1,16 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Manufacturer, :type => :model do
-  it { should have_many(:cars) }
-  it { should have_many(:categories) }
+  it { should have_many(:cars).dependent(:destroy) }
 
-  describe 'Manufacturer create action' do
-    it 'attaches the image file' do
-      file = fixture_file_upload(Rails.root.join('public', 'audi.jpg'), 'image/jpg')
-      logo = fixture_file_upload(Rails.root.join('public', 'audi_logo.png'), 'image/png')
-      expect {
-        manufacturer :create, params: { manufacturer: { manufacturer: 'audi', about: 'about audi smth', image: file, logo: logo } }
-      }.to change(ActiveStorage::Attachment, :count).by(2)
-    end
+  describe 'Manufacturer attachments' do
+    it { should have_one_attached(:image) }
+    it { should have_one_attached(:logo) }
   end
 end

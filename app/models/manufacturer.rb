@@ -6,8 +6,6 @@ class Manufacturer < ApplicationRecord
   has_one_attached :image
   has_one_attached :logo
 
-  validates :manufacturer, presence: true
-
   def image_url
     url_for(image)
   end
