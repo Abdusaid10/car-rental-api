@@ -9,7 +9,6 @@ RSpec.describe 'Users API', type: :request do
 
   # User signup test suite
   describe 'POST /signup' do
-    # let(:valid_attributes) {{ :user}, {username: user.username, email: user.email, password: user.password, password_confirmation: user.password } }
     context 'invalid request' do
       before { post '/users', params: valid_attributes.to_json, headers: headers }
 

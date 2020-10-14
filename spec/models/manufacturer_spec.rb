@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Manufacturer, :type => :model do
+RSpec.describe Manufacturer, type: :model do
   it { should have_many(:cars).dependent(:destroy) }
 
   describe 'Manufacturer attachments' do

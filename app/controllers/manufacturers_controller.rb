@@ -1,7 +1,7 @@
 class ManufacturersController < ApplicationController
   skip_before_action :authorize_request, only: %i[index show]
   before_action :set_manufacturer, only: %i[show edit update destroy]
- 
+
   def index
     @manufacturers = Manufacturer.all
     render json: @manufacturers, each_serializer: ManufacturerSerializer
