@@ -44,12 +44,4 @@ RSpec.describe 'Category request', type: :request do
       end
     end
   end
-
-  describe 'POST /categories' do
-    let(:valid_attributes) { { category: 'CUV' }}
-
-    context 'when the request is valid' do
-      before { post '/categories', params: valid_attributes }
-    end
-  end
 end

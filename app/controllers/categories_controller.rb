@@ -18,7 +18,7 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(category_params)
-    if @category.save
+    if @category.save!
       response = { message: Message.category_created }
       json_response(response, :created)
     else

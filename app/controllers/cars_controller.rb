@@ -1,7 +1,7 @@
 class CarsController < ApplicationController
   skip_before_action :authorize_request, only: %i[index show]
   before_action :set_car, only: %i[show edit update destroy]
-  
+
   def index
     @cars = Car.all
 
@@ -19,7 +19,7 @@ class CarsController < ApplicationController
   def create
     @car = Car.new(car_params)
 
-    if @car.save
+    if @car.save!
       response = { message: Message.car_created }
       json_response(response, :created)
     else

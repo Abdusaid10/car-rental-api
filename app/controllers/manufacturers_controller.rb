@@ -17,7 +17,7 @@ class ManufacturersController < ApplicationController
 
   def create
     @manufacturer = Manufacturer.new(manufacturer_params)
-    if @manufacturer.save
+    if @manufacturer.save!
       json_response(@manufacturer, :created)
     else
       response = { message: Message.something_went_wrong }
