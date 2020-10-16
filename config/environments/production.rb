@@ -33,8 +33,7 @@ Rails.application.configure do
 
   # config.active_storage.service = :amazon
 
-  config.action_mailer.default_url_options = { :host => 'https://car-booking-api-app.herokuapp.com' }
-
+  Rails.application.routes.default_url_options = { host: "https://car-booking-api-app.herokuapp.com/" }
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'
