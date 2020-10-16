@@ -3,7 +3,7 @@ class ManufacturersController < ApplicationController
   before_action :set_manufacturer, only: %i[show edit update destroy]
 
   def index
-    @manufacturers = Manufacturer.all
+    @manufacturers = Manufacturer.all.with_attached_image
     render json: @manufacturers, each_serializer: ManufacturerSerializer
   end
 
