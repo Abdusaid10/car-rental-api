@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  skip_before_action :authorize_request, only: %i[index show]
   before_action :set_category, only: %i[show update destroy]
 
   def index
@@ -17,7 +18,7 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(category_params)
-    if @category.save
+    if @category.save!
       response = { message: Message.category_created }
       json_response(response, :created)
     else

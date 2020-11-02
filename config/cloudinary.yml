@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: dv9psts7r
+  api_key: '487511833728855'
+  api_secret: sv-CQDcdkIystxeDh1g6yyviNaU
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: dv9psts7r
+  api_key: '487511833728855'
+  api_secret: sv-CQDcdkIystxeDh1g6yyviNaU
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: dv9psts7r
+  api_key: '487511833728855'
+  api_secret: sv-CQDcdkIystxeDh1g6yyviNaU
+  enhance_image_tag: true
+  static_file_support: false

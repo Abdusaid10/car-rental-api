@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
+  skip_before_action :authorize_request, only: %i[create index]
+
   def index
     @users = User.all
     if @users
-      render json: {
-        users: @users
-      }
+      render json: @users, each_serializer: UserSerializer
     else
       render json: {
-        status: 500,
+        status: 404,
         errors: ['no users found']
       }
     end
@@ -16,12 +16,10 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     if @user
-      render json: {
-        user: @user
-      }
+      render json: @user, serializer: UserDetailsSerializer
     else
       render json: {
-        status: 500,
+        status: 404,
         errors: ['user not found']
       }
     end
@@ -30,19 +28,14 @@ class UsersController < ApplicationController
   def new; end
 
   def create
-    @user = User.new(user_params)
-    puts "before #{@user}"
-    if @user.save
-      login!
-      render json: {
-        status: :created,
-        user: @user
-      }
+    user = User.create!(user_params)
+    if user.save!
+      auth_token = AuthenticateUser.new(user.email, user.password).call
+      response = { message: Message.account_created, auth_token: auth_token, id: user.id }
+      json_response(response, :created)
     else
-      render json: {
-        status: 500,
-        errors: [@user.errors.full_messages, 'user create error']
-      }
+      response = { message: Message.account_not_created }
+      json_response(response, :unprocessable_entity)
     end
   end
 

@@ -1,43 +1,32 @@
 class ManufacturersController < ApplicationController
+  skip_before_action :authorize_request, only: %i[index show]
   before_action :set_manufacturer, only: %i[show edit update destroy]
 
   def index
-    @makers = Manufacturer.all
-
-    response = {
-      manufacturers: []
-    }
-
-    @makers.each do |m|
-      if m.present?
-        serializer = ManufacturerSerializer.new(m)
-        (response[:manufacturers] ||= []) << serializer.serialize
-      end
-    end
-
-    json_response(response)
+    @manufacturers = Manufacturer.all.with_attached_image
+    render json: @manufacturers, each_serializer: ManufacturerSerializer
   end
 
-  def new
-    @maker = Manufacturer.new
-  end
+  def new; end
 
-  def edit
-    json_response(@maker)
-  end
+  def edit; end
 
   def show
-    serializer = ManufacturerSerializer.new(@maker)
-    json_response(serializer.serialize)
+    render json: @manufacturer, serializer: ManufacturerDetailsSerializer
   end
 
   def create
-    @maker = Manufacturer.new(manufacturer_params)
-    respond_to_create
+    @manufacturer = Manufacturer.new(manufacturer_params)
+    if @manufacturer.save!
+      json_response(@manufacturer, :created)
+    else
+      response = { message: Message.something_went_wrong }
+      json_response(response, :unprocessable_entity)
+    end
   end
 
   def update
-    if @maker.update_attributes(manufacturer_params)
+    if @manufacturer.update_attributes(manufacturer_params)
 
       response = { message: Message.manufacturer_updated }
       json_response(response)
@@ -49,7 +38,7 @@ class ManufacturersController < ApplicationController
   end
 
   def destroy
-    @maker.destroy
+    @manufacturer.destroy
 
     response = { message: Message.manufacturer_destroyed }
     json_response(response)
@@ -58,21 +47,10 @@ class ManufacturersController < ApplicationController
   private
 
   def set_manufacturer
-    @maker = Manufacturer.find(params[:id])
+    @manufacturer = Manufacturer.find(params[:id])
   end
 
   def manufacturer_params
     params.permit(:manufacturer, :about, :image, :logo)
-  end
-
-  def respond_to_create
-    if @maker.save
-      manufacturer_serializer = ManufacturerSerializer.new(@maker)
-      response = manufacturer_serializer.serialize
-      json_response(response, :created)
-    else
-      response = { message: Message.something_went_wrong }
-      json_response(response, :unprocessable_entity)
-    end
   end
 end
